@@ -1,4 +1,4 @@
-import Java.util.*;
+import java.util.*;
 
 public class Ship {
     String name;
@@ -9,6 +9,7 @@ public class Ship {
     public Ship(String name, int coordX, int coordY, int size) {
         this.name = name;
         this.size = size;
+        coordinatesSet = new HashSet<>();
         for(int i=0; i<size; i++) {
             for(int j=0; j<size; j++) {
                 coordinatesSet.add(new Coordinates(coordX + i, coordY + j));
@@ -16,15 +17,19 @@ public class Ship {
         }
     }
 
-    public Set<Coordinates>> getCoordinatesSet() {
-        return coordinatesSet;
+    public Set<Coordinates> getCoordinatesSet() {
+        return destroyed? Set.of() : coordinatesSet;
     }
 
     public boolean isDestroyed() {
-        return isDestroyed;
+        return destroyed;
     }
 
     public void markDestroyed() {
-        this.isDestroyed = true;
+        this.destroyed = true;
+    }
+
+    public String toString() {
+        return this.name;
     }
 }

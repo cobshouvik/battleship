@@ -9,7 +9,7 @@ public class RandomFiringStrategy implements FiringStrategy {
 
     public Coordinates fire(int minX, int maxX) {
         int xVal = random.nextInt(maxX-minX) + minX;
-        int yVal = random.nextInt(maxX-minX);
+        int yVal = random.nextInt((maxX-minX)*2);
         return new Coordinates(xVal, yVal);
     }
 }

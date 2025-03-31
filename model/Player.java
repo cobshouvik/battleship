@@ -1,4 +1,5 @@
-import Java.util.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Player{
     int minX;
@@ -24,13 +25,13 @@ public class Player{
         ships.add(ship);
     }
 
-    public Coordinates fire() {
+    public Coordinates fire(int minX, int maxX) {
         return firingStrategy.fire(minX, maxX);
     }
 
     public Optional<Ship> defend(Coordinates attackedCoordinates) {
         for(Ship ship: ships) {
-            if(ship.getCoordinatesSet.contains(attackedCoordinates)) {
+            if(!ship.isDestroyed() && ship.getCoordinatesSet().contains(attackedCoordinates)) {
                 ship.markDestroyed();
                 return Optional.of(ship);
             }
@@ -38,11 +39,15 @@ public class Player{
         return Optional.empty();
     }
 
+    public List<Ship> getShips() {
+        return this.ships;
+    }
+
     public Set<Coordinates> getBlockedCoordinates() {
         return ships.stream()
-                    .map(Ship::getCoordinatesSet)
-                    .flatmap()
-                    .toList();
+                    .filter(ship -> !ship.isDestroyed())
+                    .flatMap(ship -> ship.getCoordinatesSet().stream())
+                    .collect(Collectors.toSet());
     }
 
     public boolean hasLost() {

@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class BattleField {
     int size;
     List<Player> players;
@@ -9,22 +11,36 @@ public class BattleField {
         this.status = status;
     }
 
-    public Optional<Player> checkWinner() {
-        if(players.get(0).hasLost()) {
-            return Optional.of(players.get(1));
-        }
-        if(players.get(1).hasLost()) {
-            return Optional.of(players.get(0));
-        } 
-        return Optional.empty();
+    public int getSize() {
+        return size;
     }
 
     public GameStatus getGameStatus() {
         return this.status;
     }
 
-    public void viewBattleField() {
-        //TBD
+    public void setGameStatus(GameStatus status) {
+        this.status = status;
+    }
+
+    public String[][] viewBattleField() {
+        String[][] gridView = new String[size][size];
+        for(int i=0;i<size;i++) {
+            Arrays.fill(gridView[i], "######");
+        }
+        for(Ship ship: players.get(0).getShips()) {
+            for(Coordinates coordinates : ship.getCoordinatesSet()) {
+                gridView[coordinates.getX()][coordinates.getY()] = "A:" + ship;
+            }
+        }
+
+        for(Ship ship: players.get(1).getShips()) {
+            for(Coordinates coordinates : ship.getCoordinatesSet()) {
+                gridView[coordinates.getX()][coordinates.getY()] = "B:" + ship;
+            }
+        }
+
+        return gridView;
     }
 
     

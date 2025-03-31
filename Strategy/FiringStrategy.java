@@ -1,3 +1,3 @@
 public interface FiringStrategy {
-    public Coordinates fire();
+    public Coordinates fire(int minX, int maxX);
 }
